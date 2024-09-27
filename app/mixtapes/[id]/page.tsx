@@ -1,8 +1,8 @@
 import { SearchInput } from "@/components/spotify/search-input";
 import { cookies } from "next/headers";
-import Image from "next/image";
+import { Mixtape } from "@/components/mixtape";
 
-const Mixtape = async ({ params }: { params: { id: string } }) => {
+const MixtapePage = async ({ params }: { params: { id: string } }) => {
   const cookieStore = cookies();
   const spotifyAccessToken = cookieStore.get("spotifyAccessToken");
 
@@ -25,19 +25,8 @@ const Mixtape = async ({ params }: { params: { id: string } }) => {
   const playlist = await fetchPlaylist();
 
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div className="relative">
-        <Image
-          src="/svg/mixtape_black.svg"
-          alt="mixtape"
-          height={195}
-          width={307}
-          priority
-        />
-        <p className="text-2xl font-black absolute top-6 m-auto left-0 right-0 w-fit">
-          {playlist.name}
-        </p>
-      </div>
+    <div className="flex flex-col items-center gap-8 pt-16">
+      <Mixtape title={playlist.name} />
       <div className="flex flex-col items-center">
         <SearchInput playlistId={playlist.id} playlistName={playlist.name} />
       </div>
@@ -45,4 +34,4 @@ const Mixtape = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default Mixtape;
+export default MixtapePage;

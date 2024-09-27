@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required").max(30),
+  name: z.string().min(1, "Name is required").max(25),
   public: z.boolean().default(false),
   collaborative: z.boolean().default(false),
   description: z.string().max(50).optional(),
