@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import Providers from "@/app/providers";
 import { Toaster } from "sonner";
 import mixtape from "@/public/img/mixtape.png";
+import twitterCard from "@/public/img/twitter-card.png";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,11 +40,11 @@ export const metadata: Metadata = {
     title: "Mixtape Builder",
     description:
       "Build a mixtape for your friends, loved ones, or significat other.",
-    creator: "@amercado12345",
+    site: "@amercado12345",
     images: {
-      url: mixtape.src,
-      width: mixtape.width,
-      height: mixtape.height,
+      url: twitterCard.src,
+      width: twitterCard.width,
+      height: twitterCard.height,
       alt: "Mixtape image",
     },
   },
