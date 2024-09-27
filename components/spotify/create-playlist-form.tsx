@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(30),
@@ -57,14 +58,23 @@ export const CreatePlaylistForm = ({ userId }: { userId: string }) => {
     },
   });
 
-  const { mutate } = useMutation({
+  const router = useRouter();
+
+  const { mutate, isError } = useMutation({
     mutationFn: (values: z.infer<typeof formSchema>) =>
       createPlaylist(userId, values),
+    onSuccess: async (data) => {
+      router.push(`/mixtapes/${data.id}`);
+    },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(values);
   };
+
+  if (isError) {
+    return <div>something went wrong...</div>;
+  }
 
   return (
     <Form {...form}>

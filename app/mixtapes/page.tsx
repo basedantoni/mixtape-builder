@@ -1,4 +1,5 @@
 import { CreatePlaylistForm } from "@/components/spotify/create-playlist-form";
+import { Card } from "@/components/ui/card";
 import { cookies } from "next/headers";
 
 export default async function Mixtapes() {
@@ -15,8 +16,10 @@ export default async function Mixtapes() {
   const user = await data.json();
 
   return (
-    <div>
-      <CreatePlaylistForm userId={user.id} />
+    <div className="flex justify-center w-full">
+      <Card className="px-4 py-6 max-w-lg w-72 md:w-[32rem]">
+        <CreatePlaylistForm userId={user.id} />
+      </Card>
     </div>
   );
 }
