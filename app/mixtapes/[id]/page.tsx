@@ -27,7 +27,7 @@ const MixtapePage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="flex flex-col items-center gap-8 pt-16">
       <Mixtape title={playlist.name} />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-[320px] max-w-lg">
         <SearchInput playlistId={playlist.id} playlistName={playlist.name} />
       </div>
     </div>
