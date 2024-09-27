@@ -55,7 +55,7 @@ export const SearchInput = ({
 }) => {
   const [tracks, setTracks] = useState<Item[]>([]);
 
-  const [_, copyToClipboard] = useCopyToClipboard();
+  const [, copyToClipboard] = useCopyToClipboard();
 
   const { setSearchTerm, data, isError } = useSpotifySearch();
 
