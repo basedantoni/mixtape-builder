@@ -7,6 +7,7 @@ import { Mixtape } from "@/components/mixtape";
 import { CassetteTape } from "lucide-react";
 
 import spotifyLogo from "@/public/svg/spotify.svg";
+import mixtape from "@/public/img/mixtape.png";
 
 type Props = {
   params: { id: string };
@@ -23,7 +24,15 @@ export async function generateMetadata(
   return {
     title: `You got a mixtape from ${searchParams.name}`,
     openGraph: {
-      images: ["/img/mixtape.png", ...previousImages],
+      images: [
+        {
+          url: mixtape.src,
+          width: mixtape.width,
+          height: mixtape.height,
+          alt: "Mixtape image",
+        },
+        ...previousImages,
+      ],
     },
   };
 }
