@@ -39,7 +39,7 @@ const Mixtape = async ({ params }: { params: { id: string } }) => {
         </p>
       </div>
       <div className="w-full px-4">
-        <SearchInput playlistId={playlist.id} />
+        <SearchInput playlistId={playlist.id} playlistName={playlist.name} />
       </div>
     </div>
   );
