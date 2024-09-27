@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "@/app/globals.css";
 import Providers from "@/app/providers";
 import { Toaster } from "sonner";
+import mixtape from "@/public/img/mixtape.png";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,6 +26,27 @@ export const metadata: Metadata = {
   title: "Mixtape Builder",
   description:
     "Build a mixtape for your friends, loved ones, or significat other.",
+  openGraph: {
+    images: {
+      url: mixtape.src,
+      width: mixtape.width,
+      height: mixtape.height,
+      alt: "Mixtape image",
+    },
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mixtape Builder",
+    description:
+      "Build a mixtape for your friends, loved ones, or significat other.",
+    creator: "@amercado12345",
+    images: {
+      url: mixtape.src,
+      width: mixtape.width,
+      height: mixtape.height,
+      alt: "Mixtape image",
+    },
+  },
 };
 
 export default function RootLayout({
