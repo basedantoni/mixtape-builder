@@ -21,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 const MIN_TRACKS = 3;
 const MAX_TRACKS = 20;
@@ -53,7 +54,6 @@ export const SearchInput = ({
   playlistName: string;
 }) => {
   const [tracks, setTracks] = useState<Item[]>([]);
-  const [canShare, setCanShare] = useState<boolean>(false);
 
   const [copiedText, copyToClipboard] = useCopyToClipboard();
 
@@ -65,7 +65,18 @@ export const SearchInput = ({
         playlistId,
         tracks.map((track) => track.uri)
       ),
-    onSuccess: () => setCanShare(true),
+    onSuccess: () => {
+      toast("Mixtape created", {
+        action: {
+          label: (
+            <div className="flex items-center">
+              Copy to share <ClipboardIcon className="ml-1 h-3 w-3" />
+            </div>
+          ),
+          onClick: handleCopyToClipboard,
+        },
+      });
+    },
   });
 
   const handleAddTrack = (track: Item) => {
@@ -77,34 +88,20 @@ export const SearchInput = ({
     setTracks(tracks.filter((track) => track.id !== id));
   };
 
+  const handleCopyToClipboard = () => {
+    copyToClipboard(
+      `${
+        window.location.origin
+      }/share/${playlistId}?title=${playlistName}&name=${"Anthony"}`
+    );
+  };
+
   if (isError) {
     return <div>Something went wrong...</div>;
   }
 
   return (
-    <div className="flex flex-col gap-2 items-center max-w-md">
-      {!canShare && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                onClick={() =>
-                  copyToClipboard(
-                    `${
-                      window.location.origin
-                    }/share/${playlistId}?title=${playlistName}&name=${"Anthony"}`
-                  )
-                }
-              >
-                Copy to Clipboard <ClipboardIcon className="ml-2 h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent variant="outline" side="bottom">
-              <p>Click to copy</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
+    <div className="flex flex-col gap-4 items-center max-w-md">
       <div className="relative flex flex-col gap-2 w-full max-w-md">
         <div className="relative">
           <Input

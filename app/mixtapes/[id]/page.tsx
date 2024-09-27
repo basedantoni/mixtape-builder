@@ -25,7 +25,7 @@ const Mixtape = async ({ params }: { params: { id: string } }) => {
   const playlist = await fetchPlaylist();
 
   return (
-    <div className="flex flex-col items-center gap-5">
+    <div className="flex flex-col items-center gap-8">
       <div className="relative">
         <Image
           src="/svg/mixtape_black.svg"
@@ -38,7 +38,7 @@ const Mixtape = async ({ params }: { params: { id: string } }) => {
           {playlist.name}
         </p>
       </div>
-      <div className="w-full px-4">
+      <div className="flex flex-col items-center">
         <SearchInput playlistId={playlist.id} playlistName={playlist.name} />
       </div>
     </div>

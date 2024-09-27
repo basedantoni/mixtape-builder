@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/app/globals.css";
 import Providers from "@/app/providers";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <div className="flex flex-col container h-full px-4 py-6 text-black dark:text-zinc-50">
           <Providers>{children}</Providers>
         </div>
+        <Toaster />
       </body>
     </html>
   );
