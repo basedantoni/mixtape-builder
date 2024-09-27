@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import { Minus, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Item } from "@/types";
-import { Button } from "../ui/button";
 import { useSpotifySearch } from "@/hooks/use-spotify-search";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const MIN_TRACKS = 3;
 const MAX_TRACKS = 20;
@@ -35,7 +42,7 @@ const updatePlaylist = async (playlistId: string, uris: string[]) => {
 export const SearchInput = ({ playlistId }: { playlistId: string }) => {
   const [tracks, setTracks] = useState<Item[]>([]);
 
-  const { searchTerm, setSearchTerm, data, isError } = useSpotifySearch();
+  const { setSearchTerm, data, isError } = useSpotifySearch();
 
   const { mutate } = useMutation({
     mutationFn: () =>
@@ -131,9 +138,23 @@ export const SearchInput = ({ playlistId }: { playlistId: string }) => {
         ))}
       </div>
       {tracks.length > 0 && (
-        <Button onClick={() => mutate()} disabled={tracks.length < MIN_TRACKS}>
-          Add to your Mixtape
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                onClick={() => mutate()}
+                disabled={tracks.length < MIN_TRACKS}
+              >
+                Add to your Mixtape
+              </Button>
+            </TooltipTrigger>
+            {tracks.length < MIN_TRACKS && (
+              <TooltipContent side="bottom">
+                <p>Add at least 3 tracks</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       )}
     </div>
   );
