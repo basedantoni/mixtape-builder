@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { z } from "zod";
 
-export default function Callback() {
+const CallbackContent = () => {
   const searchParamsSchema = z.object({
     code: z.string(),
   });
@@ -34,11 +34,9 @@ export default function Callback() {
           throw new Error("Failed to fetch access token");
         }
 
-        // Redirect to a different page, e.g., the user's profile or dashboard
         router.push("/");
       } catch (err) {
         console.error("Failed to fetch access token", err);
-        // Handle the error appropriately, e.g., redirect to an error page
         router.push("/error");
       }
     };
@@ -47,4 +45,12 @@ export default function Callback() {
   }, [code, router]);
 
   return <div>Processing your login...</div>;
+};
+
+export default function Callback() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CallbackContent />
+    </Suspense>
+  );
 }

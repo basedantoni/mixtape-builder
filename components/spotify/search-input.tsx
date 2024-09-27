@@ -2,7 +2,7 @@
 
 // hooks
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSpotifySearch } from "@/hooks/use-spotify-search";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
 
@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
-const MIN_TRACKS = 3;
+const MIN_TRACKS = 4;
 const MAX_TRACKS = 20;
 
 const updatePlaylist = async (playlistId: string, uris: string[]) => {
@@ -46,6 +46,17 @@ const updatePlaylist = async (playlistId: string, uris: string[]) => {
   return result;
 };
 
+const getUser = async () => {
+  const response = await fetch("/api/spotify/me");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch user");
+  }
+
+  const result = await response.json();
+  return result;
+};
+
 export const SearchInput = ({
   playlistId,
   playlistName,
@@ -58,6 +69,11 @@ export const SearchInput = ({
   const [, copyToClipboard] = useCopyToClipboard();
 
   const { setSearchTerm, data, isError } = useSpotifySearch();
+
+  const { data: userData } = useQuery({
+    queryKey: ["me"],
+    queryFn: getUser,
+  });
 
   const { mutate } = useMutation({
     mutationFn: () =>
@@ -92,7 +108,9 @@ export const SearchInput = ({
     copyToClipboard(
       `${
         window.location.origin
-      }/share/${playlistId}?title=${playlistName}&name=${"Anthony"}`
+      }/share/${playlistId}?title=${playlistName}&name=${
+        userData.display_name ?? "A friend"
+      }`
     );
   };
 
@@ -127,7 +145,7 @@ export const SearchInput = ({
         {tracks.length > 0 && (
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button
                   onClick={() => mutate()}
                   disabled={tracks.length < MIN_TRACKS}

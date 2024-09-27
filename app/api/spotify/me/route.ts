@@ -1,5 +1,7 @@
 import spotifyApiHandler from "@/lib/spotify-api";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const response = await spotifyApiHandler(`/me`, "GET");
