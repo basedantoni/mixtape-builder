@@ -1,17 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata, ResolvingMetadata } from "next";
 
 import { Button } from "@/components/ui/button";
 import { Mixtape } from "@/components/mixtape";
 import { CassetteTape } from "lucide-react";
 
-export default async function Share({
-  params,
-  searchParams,
-}: {
+type Props = {
   params: { id: string };
   searchParams: { title: string; name: string };
-}) {
+};
+
+export async function generateMetadata(
+  { searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: `You got a mixtape from ${searchParams.name}`,
+    openGraph: {
+      images: ["/img/mixtape.png", ...previousImages],
+    },
+  };
+}
+
+export default async function Share({ params, searchParams }: Props) {
   return (
     <div className="flex flex-col items-center gap-8 pt-16">
       <p>{searchParams.name} made you a mixtape!</p>
