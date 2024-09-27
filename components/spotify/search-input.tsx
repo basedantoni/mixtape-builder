@@ -105,13 +105,11 @@ export const SearchInput = ({
   };
 
   const handleCopyToClipboard = () => {
-    copyToClipboard(
-      `${
-        window.location.origin
-      }/share/${playlistId}?title=${playlistName}&name=${
-        userData.display_name ?? "A friend"
-      }`
-    );
+    const shareUrl = new URL(`${window.location.origin}/share/${playlistId}`);
+    shareUrl.searchParams.append("title", playlistName);
+    shareUrl.searchParams.append("name", userData?.display_name ?? "A friend");
+
+    copyToClipboard(shareUrl.toString());
   };
 
   if (isError) {
