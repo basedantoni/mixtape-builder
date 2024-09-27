@@ -6,20 +6,11 @@ import { Minus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Item } from "@/types";
-import { useDebounce } from "@uidotdev/usehooks";
 import { Button } from "../ui/button";
+import { useSpotifySearch } from "@/hooks/use-spotify-search";
 
 const MIN_TRACKS = 3;
 const MAX_TRACKS = 20;
-
-const getData = async (searchTerm: string) => {
-  const response = await fetch(`/api/spotify/search?searchTerm=${searchTerm}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch search results");
-  }
-  const data = await response.json();
-  return data;
-};
 
 const updatePlaylist = async (playlistId: string, uris: string[]) => {
   const response = await fetch("/api/spotify/playlists", {
@@ -42,16 +33,9 @@ const updatePlaylist = async (playlistId: string, uris: string[]) => {
 };
 
 export const SearchInput = ({ playlistId }: { playlistId: string }) => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [tracks, setTracks] = useState<Item[]>([]);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-  const { data, isError } = useQuery({
-    queryKey: ["tracks", debouncedSearchTerm],
-    queryFn: () => getData(debouncedSearchTerm),
-    enabled: debouncedSearchTerm.length > 0,
-  });
+  const { searchTerm, setSearchTerm, data, isError } = useSpotifySearch();
 
   const { mutate } = useMutation({
     mutationFn: () =>
