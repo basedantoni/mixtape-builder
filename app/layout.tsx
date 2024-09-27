@@ -15,6 +15,12 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const brick = localFont({
+  src: "./fonts/Brick.woff",
+  variable: "--font-brick",
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "Mixtape Builder",
   description:
@@ -29,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col items-center w-full h-full min-h-dvh bg-white dark:bg-zinc-900`}
+        className={`${geistSans.variable} ${geistMono.variable} ${brick.variable} antialiased flex flex-col items-center w-full h-full min-h-dvh bg-white dark:bg-zinc-900`}
       >
         <div className="flex flex-col container h-full px-4 py-6 text-black dark:text-zinc-50">
           <Providers>{children}</Providers>
