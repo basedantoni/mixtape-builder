@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Mixtape } from "@/components/mixtape";
 import { CassetteTape } from "lucide-react";
 
+import spotifyLogo from "@/public/svg/spotify.svg";
+
 type Props = {
   params: { id: string };
   searchParams: { title: string; name: string };
@@ -40,12 +42,7 @@ export default async function Share({ params, searchParams }: Props) {
         >
           <Button className="flex gap-2">
             Open in Spotify{" "}
-            <Image
-              src="/svg/spotify.svg"
-              alt="spotify"
-              height={20}
-              width={20}
-            />
+            <Image src={spotifyLogo} alt="spotify" height={20} width={20} />
           </Button>
         </Link>
         <hr className="relative border-t-4 border-double overflow-visible text-center border-gray-300 after:relative after:top-[-14px] after:bg-white after:px-4 after:text-sm after:text-zinc-500 after:content-['or']" />
