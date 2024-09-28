@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: ["mixtape-builder.vercel.app"],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

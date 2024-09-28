@@ -28,6 +28,7 @@ export const StaticMixtape = ({
           alt={sticker.alt}
           width={WIDTH}
           height={HEIGHT}
+          unoptimized
           style={{
             position: "absolute",
             left: `${(sticker.x ?? 0) - rect.x - WIDTH / 2}px`,
