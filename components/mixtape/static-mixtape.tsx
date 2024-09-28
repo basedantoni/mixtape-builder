@@ -1,7 +1,8 @@
-"use client";
-
 import { Mixtape } from "./mixtape";
 import { Sticker } from "@/types";
+
+import stickerImg from "@/public/img/sticker.png";
+import Image from "next/image";
 
 const WIDTH = 200;
 const HEIGHT = 200;
@@ -21,9 +22,9 @@ export const StaticMixtape = ({
     <div className="relative overflow-hidden rounded-2xl">
       <Mixtape title={title} />
       {stickers.map((sticker, index) => (
-        <img
+        <Image
           key={`${sticker.id}-${index}`}
-          src={`https://mixtape-builder.vercel.app${sticker.src}`}
+          src={stickerImg}
           alt={sticker.alt}
           width={WIDTH}
           height={HEIGHT}
