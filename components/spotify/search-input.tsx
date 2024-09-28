@@ -1,7 +1,7 @@
 "use client";
 
 // hooks
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSpotifySearch } from "@/hooks/use-spotify-search";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
@@ -67,11 +67,13 @@ export const SearchInput = ({
 }) => {
   const [tracks, setTracks] = useState<Item[]>([]);
   const [, copyToClipboard] = useCopyToClipboard();
-  const { setSearchTerm, data, isError } = useSpotifySearch();
+  const { searchTerm, setSearchTerm, data, isError } = useSpotifySearch();
   const droppedStickers = useStickerStore((state) => state.droppedStickers);
   const droppableElementRect = useStickerStore(
     (state) => state.droppableElementRect
   );
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { data: userData } = useQuery({
     queryKey: ["me"],
@@ -101,6 +103,9 @@ export const SearchInput = ({
   const handleAddTrack = (track: Item) => {
     setTracks([...tracks, track]);
     setSearchTerm("");
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleRemoveTrack = (id: string) => {
@@ -131,7 +136,9 @@ export const SearchInput = ({
         <div className="relative">
           <Input
             type="text"
+            ref={inputRef}
             placeholder="Search..."
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 pr-4 py-2 rounded-md border border-muted focus:border-primary focus:ring-primary"
           />
