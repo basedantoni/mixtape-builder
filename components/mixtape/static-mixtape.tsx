@@ -24,7 +24,7 @@ export const StaticMixtape = ({
       {stickers.map((sticker, index) => (
         <Image
           key={`${sticker.id}-${index}`}
-          src={sticker.src}
+          src={`https://mixtape-builder.vercel.app${sticker.src}`}
           alt={sticker.alt}
           width={WIDTH}
           height={HEIGHT}
