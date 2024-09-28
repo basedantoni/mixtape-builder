@@ -1,3 +1,5 @@
+"use client";
+
 import { Mixtape } from "./mixtape";
 import { Sticker } from "@/types";
 import Image from "next/image";
@@ -16,12 +18,17 @@ export const StaticMixtape = ({
   stickers,
   rect,
 }: StaticMixtapeProps) => {
+  const imageLoader = ({ src }: { src: string }) => {
+    return src.startsWith("/") ? src : `/${src}`;
+  };
+
   return (
     <div className="relative overflow-hidden rounded-2xl">
       <Mixtape title={title} />
       {stickers.map((sticker, index) => (
         <Image
           key={`${sticker.id}-${index}`}
+          loader={imageLoader}
           src={sticker.src}
           alt={sticker.alt}
           width={WIDTH}
