@@ -12,7 +12,13 @@ import { Sticker } from "@/types";
 
 type Props = {
   params: { id: string };
-  searchParams: { title: string; name: string; [key: string]: string };
+  searchParams: {
+    title: string;
+    name: string;
+    [key: string]: string;
+    clientX: string;
+    clientY: string;
+  };
 };
 
 export async function generateMetadata(
@@ -45,7 +51,14 @@ export default async function Share({ params, searchParams }: Props) {
 
   return (
     <div className="flex flex-col items-center gap-8 pt-16">
-      <StaticMixtape title={searchParams.title} stickers={stickers} />
+      <StaticMixtape
+        title={searchParams.title}
+        stickers={stickers}
+        rect={{
+          x: parseInt(searchParams.clientX, 10),
+          y: parseInt(searchParams.clientY, 10),
+        }}
+      />
 
       <p>{searchParams.name} made you a mixtape!</p>
       <div className="flex flex-col gap-4">

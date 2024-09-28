@@ -7,6 +7,8 @@ import { DroppableMixtape } from "@/components/mixtape/droppable-mixtape";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sticker } from "lucide-react";
@@ -44,6 +46,10 @@ const MixtapePage = async ({ params }: { params: { id: string } }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom">
+          <DropdownMenuLabel className="text-center">
+            Drag & Drop
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <StickerToolbar />
         </DropdownMenuContent>
       </DropdownMenu>

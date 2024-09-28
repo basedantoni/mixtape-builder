@@ -13,13 +13,13 @@ export const DroppableMixtape = ({ title }: { title: string }) => {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const mixtapeRef = useRef<HTMLDivElement>(null);
   const droppedStickers = useStickerStore((state) => state.droppedStickers);
+  const updateDroppableElementRect = useStickerStore(
+    (state) => state.updateDroppableElementRect
+  );
 
   useEffect(() => {
     if (mixtapeRef.current) {
       const rect = mixtapeRef.current.getBoundingClientRect();
-
-      console.log(rect.left);
-      console.log(rect.top);
 
       const adjustedStickers = droppedStickers.map((sticker) => ({
         ...sticker,
@@ -28,6 +28,7 @@ export const DroppableMixtape = ({ title }: { title: string }) => {
       }));
 
       setStickers(adjustedStickers);
+      updateDroppableElementRect({ x: rect.left, y: rect.top });
     }
   }, [droppedStickers]);
 
@@ -39,12 +40,12 @@ export const DroppableMixtape = ({ title }: { title: string }) => {
           key={`${sticker.id}-${index}`}
           src={sticker.src}
           alt={sticker.alt}
+          width={WIDTH}
+          height={HEIGHT}
           style={{
             position: "absolute",
             left: `${sticker.x}px`,
             top: `${sticker.y}px`,
-            width: `${WIDTH}px`,
-            height: `${HEIGHT}px`,
             zIndex: 10,
           }}
         />

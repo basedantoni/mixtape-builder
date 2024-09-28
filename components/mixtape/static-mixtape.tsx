@@ -8,9 +8,14 @@ const HEIGHT = 200;
 interface StaticMixtapeProps {
   title: string;
   stickers: Sticker[];
+  rect: { x: number; y: number };
 }
 
-export const StaticMixtape = ({ title, stickers }: StaticMixtapeProps) => {
+export const StaticMixtape = ({
+  title,
+  stickers,
+  rect,
+}: StaticMixtapeProps) => {
   return (
     <div className="relative overflow-hidden rounded-2xl">
       <Mixtape title={title} />
@@ -23,8 +28,8 @@ export const StaticMixtape = ({ title, stickers }: StaticMixtapeProps) => {
           height={HEIGHT}
           style={{
             position: "absolute",
-            left: `${(sticker.x ?? 0) - 61.5 - WIDTH / 2}px`,
-            top: `${(sticker.y ?? 0) - 88 - HEIGHT / 2}px`,
+            left: `${(sticker.x ?? 0) - rect.x - WIDTH / 2}px`,
+            top: `${(sticker.y ?? 0) - rect.y - HEIGHT / 2}px`,
             zIndex: 10,
           }}
         />

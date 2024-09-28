@@ -69,6 +69,9 @@ export const SearchInput = ({
   const [, copyToClipboard] = useCopyToClipboard();
   const { setSearchTerm, data, isError } = useSpotifySearch();
   const droppedStickers = useStickerStore((state) => state.droppedStickers);
+  const droppableElementRect = useStickerStore(
+    (state) => state.droppableElementRect
+  );
 
   const { data: userData } = useQuery({
     queryKey: ["me"],
@@ -108,7 +111,8 @@ export const SearchInput = ({
     const shareUrl = new URL(`${window.location.origin}/share/${playlistId}`);
     shareUrl.searchParams.append("title", playlistName);
     shareUrl.searchParams.append("name", userData?.display_name ?? "A friend");
-
+    shareUrl.searchParams.append("clientX", droppableElementRect.x.toString());
+    shareUrl.searchParams.append("clientY", droppableElementRect.y.toString());
     // Add droppedStickers to the URL
     droppedStickers.forEach((sticker, index) => {
       shareUrl.searchParams.append(`sticker${index}`, JSON.stringify(sticker));
