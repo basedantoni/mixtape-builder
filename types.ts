@@ -1,3 +1,13 @@
+// Misc Types
+export interface Sticker {
+  id: string;
+  src: string;
+  alt: string;
+  x?: number;
+  y?: number;
+}
+
+// Spotify Types
 export interface SearchResponse {
   tracks: Tracks;
   artists: Artists;

@@ -3,15 +3,16 @@ import Image from "next/image";
 import type { Metadata, ResolvingMetadata } from "next";
 
 import { Button } from "@/components/ui/button";
-import { Mixtape } from "@/components/mixtape";
 import { CassetteTape } from "lucide-react";
+import { StaticMixtape } from "@/components/mixtape/static-mixtape";
 
 import spotifyLogo from "@/public/svg/spotify.svg";
 import mixtape from "@/public/img/mixtape.png";
+import { Sticker } from "@/types";
 
 type Props = {
   params: { id: string };
-  searchParams: { title: string; name: string };
+  searchParams: { title: string; name: string; [key: string]: string };
 };
 
 export async function generateMetadata(
@@ -38,11 +39,15 @@ export async function generateMetadata(
 }
 
 export default async function Share({ params, searchParams }: Props) {
+  const stickers: Sticker[] = Object.entries(searchParams)
+    .filter(([key]) => key.startsWith("sticker"))
+    .map(([, value]) => JSON.parse(decodeURIComponent(value)));
+
   return (
     <div className="flex flex-col items-center gap-8 pt-16">
-      <p>{searchParams.name} made you a mixtape!</p>
-      <Mixtape title={searchParams.title} />
+      <StaticMixtape title={searchParams.title} stickers={stickers} />
 
+      <p>{searchParams.name} made you a mixtape!</p>
       <div className="flex flex-col gap-4">
         <Link
           href={`https://open.spotify.com/playlist/${params.id}`}

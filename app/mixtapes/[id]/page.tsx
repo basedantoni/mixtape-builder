@@ -1,6 +1,16 @@
-import { SearchInput } from "@/components/spotify/search-input";
 import { cookies } from "next/headers";
-import { Mixtape } from "@/components/mixtape";
+
+import { SearchInput } from "@/components/spotify/search-input";
+import { StickerToolbar } from "@/components/mixtape/sticker-toolbar";
+import { DroppableMixtape } from "@/components/mixtape/droppable-mixtape";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sticker } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const MixtapePage = async ({ params }: { params: { id: string } }) => {
   const cookieStore = cookies();
@@ -26,7 +36,17 @@ const MixtapePage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="flex flex-col items-center gap-8 pt-16">
-      <Mixtape title={playlist.name} />
+      <DroppableMixtape title={playlist.name} />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button size="icon" variant="outline">
+            <Sticker className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side="bottom">
+          <StickerToolbar />
+        </DropdownMenuContent>
+      </DropdownMenu>
       <div className="flex flex-col items-center w-[320px] max-w-lg">
         <SearchInput playlistId={playlist.id} playlistName={playlist.name} />
       </div>

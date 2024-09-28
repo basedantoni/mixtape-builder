@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSpotifySearch } from "@/hooks/use-spotify-search";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
+import { useStickerStore } from "@/hooks/use-sticker-store";
 
 // components & types
 import { TrackList } from "@/components/spotify/track-list";
@@ -65,10 +66,9 @@ export const SearchInput = ({
   playlistName: string;
 }) => {
   const [tracks, setTracks] = useState<Item[]>([]);
-
   const [, copyToClipboard] = useCopyToClipboard();
-
   const { setSearchTerm, data, isError } = useSpotifySearch();
+  const droppedStickers = useStickerStore((state) => state.droppedStickers);
 
   const { data: userData } = useQuery({
     queryKey: ["me"],
@@ -108,6 +108,11 @@ export const SearchInput = ({
     const shareUrl = new URL(`${window.location.origin}/share/${playlistId}`);
     shareUrl.searchParams.append("title", playlistName);
     shareUrl.searchParams.append("name", userData?.display_name ?? "A friend");
+
+    // Add droppedStickers to the URL
+    droppedStickers.forEach((sticker, index) => {
+      shareUrl.searchParams.append(`sticker${index}`, JSON.stringify(sticker));
+    });
 
     copyToClipboard(shareUrl.toString());
   };
